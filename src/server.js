@@ -8,7 +8,8 @@ import {
   errorHandlerMiddleware,
 } from './middlewares/index.js';
 
-import { studentService, contactService } from './services/index.js';
+import router from './routers/index.js';
+
 const PORT = env(env('PORT'), '3000');
 
 export const setupServer = () => {
@@ -33,70 +34,74 @@ export const setupServer = () => {
         'Hello world. You can get list /contacts or /contacts/:contactId ',
     });
   });
-  app.get('/students', async (req, res) => {
-    try {
-      const students = await studentService.getAllStudents();
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully found students!',
-        data: students,
-      });
-    } catch (error) {
-      console.log('Error in get data /students', error);
-    }
-  });
 
-  app.get('/students/:studentId', async (req, res) => {
-    try {
-      const { studentId } = req.params;
-      const student = await studentService.getStudentById(studentId);
-      if (!student) {
-        res.status(404).json({
-          message: 'Student not found',
-        });
-        return;
-      }
-      res.status(200).json({
-        status: 200,
-        message: `Successfully found student with id ${studentId}!`,
-        data: student,
-      });
-    } catch (error) {
-      console.log('error in get data /students/:studentId', error);
-    }
-  });
-  app.get('/contacts', async (req, res) => {
-    try {
-      const contacts = await contactService.getAllContacts();
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully found contacts!',
-        data: contacts,
-      });
-    } catch (error) {
-      console.log('Error in get data /contacts', error);
-    }
-  });
+  app.use(router);
 
-  app.get('/contacts/:contactId', async (req, res) => {
-    try {
-      const { contactId } = req.params;
-      const contact = await contactService.getContactById(contactId);
-      if (!contact) {
-        res.status(404).json({
-          message: 'Contact not found',
-        });
-        return;
-      }
-      res.status(200).json({
-        status: 200,
-        message: `Successfully found contact with id ${contactId}!`,
-        data: contact,
-      });
-    } catch (error) {
-      console.log('error in get data /contacts/:contactId', error);
-    }
-  });
+  // app.get('/students', async (req, res) => {
+  //   try {
+  //     const students = await studentService.getAllStudents();
+  //     res.status(200).json({
+  //       status: 200,
+  //       message: 'Successfully found students!',
+  //       data: students,
+  //     });
+  //   } catch (error) {
+  //     console.log('Error in get data /students', error);
+  //   }
+  // });
+
+  // app.get('/students/:studentId', async (req, res) => {
+  //   try {
+  //     const { studentId } = req.params;
+  //     const student = await studentService.getStudentById(studentId);
+  //     if (!student) {
+  //       res.status(404).json({
+  //         message: 'Student not found',
+  //       });
+  //       return;
+  //     }
+  //     res.status(200).json({
+  //       status: 200,
+  //       message: `Successfully found student with id ${studentId}!`,
+  //       data: student,
+  //     });
+  //   } catch (error) {
+  //     console.log('error in get data /students/:studentId', error);
+  //   }
+  // });
+
+  // app.get('/contacts', async (req, res) => {
+  //   try {
+  //     const contacts = await contactService.getAllContacts();
+  //     res.status(200).json({
+  //       status: 200,
+  //       message: 'Successfully found contacts!',
+  //       data: contacts,
+  //     });
+  //   } catch (error) {
+  //     console.log('Error in get data /contacts', error);
+  //   }
+  // });
+
+  // app.get('/contacts/:contactId', async (req, res) => {
+  //   try {
+  //     const { contactId } = req.params;
+  //     const contact = await contactService.getContactById(contactId);
+  //     if (!contact) {
+  //       res.status(404).json({
+  //         message: 'Contact not found',
+  //       });
+  //       return;
+  //     }
+  //     res.status(200).json({
+  //       status: 200,
+  //       message: `Successfully found contact with id ${contactId}!`,
+  //       data: contact,
+  //     });
+  //   } catch (error) {
+  //     console.log('error in get data /contacts/:contactId', error);
+  //   }
+  // });
 
   app.use(notFoundMiddleware);
 
