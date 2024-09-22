@@ -2,27 +2,23 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
-
-import {
-  notFoundMiddleware,
-  errorHandlerMiddleware,
-} from './middlewares/index.js';
-
 import router from './routers/index.js';
 
+import { notFoundHandler as notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 const PORT = env(env('PORT'), '3000');
 
 export const setupServer = () => {
   console.log(`Server is running on port ${PORT}`);
   const app = express();
 
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
+  // app.use(
+  //   pino({
+  //     transport: {
+  //       target: 'pino-pretty',
+  //     },
+  //   }),
+  // );
 
   app.use(cors());
 
@@ -36,19 +32,6 @@ export const setupServer = () => {
   });
 
   app.use(router);
-
-  // app.get('/students', async (req, res) => {
-  //   try {
-  //     const students = await studentService.getAllStudents();
-  //     res.status(200).json({
-  //       status: 200,
-  //       message: 'Successfully found students!',
-  //       data: students,
-  //     });
-  //   } catch (error) {
-  //     console.log('Error in get data /students', error);
-  //   }
-  // });
 
   // app.get('/students/:studentId', async (req, res) => {
   //   try {
@@ -103,9 +86,9 @@ export const setupServer = () => {
   //   }
   // });
 
-  app.use(notFoundMiddleware);
+  app.use('*', notFoundHandler);
 
-  app.use(errorHandlerMiddleware);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {});
 };

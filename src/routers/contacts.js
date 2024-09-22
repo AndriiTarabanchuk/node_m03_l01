@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getAllContacts, getContactById } from '../services/students.js';
+// import { getAllStudents, getStudentById } from '../services/students.js';
+import { getAllContacts, getContactById } from '../services/contacts.js';
 
 export const contactsRouter = Router();
 

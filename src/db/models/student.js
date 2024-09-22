@@ -15,11 +15,11 @@ const studentSchema = new Schema(
       required: true,
       enum: ['male', 'female'],
     },
-    advMark: {
+    avgMark: {
       type: Number,
       required: true,
     },
-    noDuty: {
+    onDuty: {
       type: Boolean,
       required: true,
       default: true,
@@ -31,4 +31,4 @@ const studentSchema = new Schema(
   },
 );
 
-export const studentsModel = model('students', studentSchema);
+export const StudentsModel = model('students', studentSchema);
