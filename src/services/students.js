@@ -21,20 +21,19 @@ export const deleteStudentById = async (studentId) => {
   return student;
 };
 
-export const updateStudent = async (id, payload, options = {}) => {
-  const rawResult = await StudentsModel.findByIdAndUpdate(id, payload, {
+export const updateStudent = async (studentId, payload, options = {}) => {
+  const rawResult = await StudentsModel.findByIdAndUpdate(studentId, payload, {
     new: true,
     includeResultMetadata: true,
     ...options,
   });
-
-  if (!rawResult.value) {
-    throw createHttpError(404, {
-      status: 404,
-      message: `Student with id ${id} not found!`,
-    });
-  }
-  // if (!rawResult || !rawResult.value) return null;
+  // console.log(rawResult);
+  // if (!rawResult.value) {
+  //   throw createHttpError(404, {
+  //     status: 404,
+  //     message: `Student with id ${studentId} not found!`,
+  //   });
+  // }
 
   return {
     student: rawResult.value,

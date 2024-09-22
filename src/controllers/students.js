@@ -76,11 +76,16 @@ export const putStudentController = async (req, res) => {
 export const patchStudentController = async (req, res) => {
   const { studentId } = req.params;
   const { body } = req;
-
   const { student } = await updateStudent(studentId, body);
+
+  if (!student) {
+    throw createHttpError(404, `Student with id=${studentId} not found`);
+    return;
+  }
+
   res.send({
     status: 200,
-    message: `Successfully updated a student!`,
+    message: 'Successfully updated a student!',
     data: student,
   });
 };
