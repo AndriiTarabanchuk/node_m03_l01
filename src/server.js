@@ -86,7 +86,7 @@ export const setupServer = () => {
   //   }
   // });
 
-  app.use('*', notFoundHandler);
+  app.use(notFoundHandler);
 
   app.use(errorHandler);
 

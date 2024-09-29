@@ -10,7 +10,7 @@ import createHttpError from 'http-errors';
 
 export const getStudentsController = async (req, res) => {
   const students = await getStudents();
-  res.status(200).json({
+  res.json({
     status: 200,
     message: 'Successfully found students!',
     dataLen: students.length,
@@ -50,8 +50,7 @@ export const deleteStudentByIdController = async (req, res) => {
   const { studentId } = req.params;
   const student = await deleteStudentById(studentId);
   if (!student) {
-    next(createHttpError(404, 'Student not found'));
-    return;
+    return next(createHttpError(404, 'Student not found'));
   }
   res.status(204).send(`Item with id=${id} delete.`);
 };
