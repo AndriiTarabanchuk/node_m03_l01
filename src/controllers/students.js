@@ -7,13 +7,26 @@ import {
 } from '../services/students.js';
 
 import createHttpError from 'http-errors';
+import { validatePaginationParams } from '../utils/validation/validatePaginationParams.js';
+import { parseSortParams } from '../utils/validation/parseSortParams.js';
+import { parseFilterParams } from '../utils/validation/parseFilterParams.js';
 
 export const getStudentsController = async (req, res) => {
-  const students = await getStudents();
+  const { page, perPage } = validatePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+  const filter = parseFilterParams(req.query);
+
+  const students = await getStudents({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
+
   res.json({
     status: 200,
     message: 'Successfully found students!',
-    dataLen: students.length,
     data: students,
   });
 };

@@ -8,20 +8,44 @@ import {
   createStudentController,
 } from '../controllers/students.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+// import {
+//   createStudentValidationSchema,
+//   updateStudentValidationSchema,
+// } from '../validation/students.js';
+import { validateBody } from '../validation/validateBody.js';
+import { validateMongoIdParam } from '../validation/validateMongoIdParam.js';
+import { updateStudentValidationSchema } from '../validation/updateStudentValidationSchema.js';
+import { createStudentValidationSchema } from '../validation/createStudentValidationSchema.js';
 
 const studentsRouter = Router();
 
 studentsRouter.get('/', ctrlWrapper(getStudentsController));
 
-studentsRouter.get('/:studentId', ctrlWrapper(getStudentByIdController));
+studentsRouter.get(
+  '/:studentId',
+  validateMongoIdParam('studentId'),
+  ctrlWrapper(getStudentByIdController),
+);
 
-studentsRouter.post('/', ctrlWrapper(createStudentController));
+studentsRouter.post(
+  '/',
+  validateBody(createStudentValidationSchema),
+  ctrlWrapper(createStudentController),
+);
 
 studentsRouter.delete('/:studentId', ctrlWrapper(deleteStudentByIdController));
 
-studentsRouter.put('/:studentId', ctrlWrapper(putStudentController));
+studentsRouter.put(
+  '/:studentId',
+  validateBody(createStudentValidationSchema),
+  ctrlWrapper(putStudentController),
+);
 
-studentsRouter.patch('/:studentId', ctrlWrapper(patchStudentController));
+studentsRouter.patch(
+  '/:studentId',
+  validateBody(updateStudentValidationSchema),
+  ctrlWrapper(patchStudentController),
+);
 
 export default studentsRouter;
 
