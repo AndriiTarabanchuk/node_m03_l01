@@ -6,6 +6,10 @@ const studentSchema = new Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+    },
     age: {
       type: String,
       required: true,
@@ -15,11 +19,11 @@ const studentSchema = new Schema(
       required: true,
       enum: ['male', 'female'],
     },
-    advMark: {
+    avgMark: {
       type: Number,
       required: true,
     },
-    noDuty: {
+    onDuty: {
       type: Boolean,
       required: true,
       default: true,
@@ -31,4 +35,4 @@ const studentSchema = new Schema(
   },
 );
 
-export const studentsModel = model('students', studentSchema);
+export const StudentsModel = model('students', studentSchema);
