@@ -7,12 +7,12 @@ import {
 } from '../services/students.js';
 
 import createHttpError from 'http-errors';
-import { validatePaginationParams } from '../utils/validation/validatePaginationParams.js';
 import { parseSortParams } from '../utils/validation/parseSortParams.js';
 import { parseFilterParams } from '../utils/validation/parseFilterParams.js';
+import { parsePaginationParams } from '../utils/validation/parsePaginationParams.js';
 
 export const getStudentsController = async (req, res) => {
-  const { page, perPage } = validatePaginationParams(req.query);
+  const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
 
